@@ -1,13 +1,14 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FormattedNumber } from "@/components/ui/formatted-number";
+import { usePrefersReducedMotion } from "@/components/ui/use-prefers-reduced-motion";
 
 const MIX_HOLDINGS = [
-  { name: "Nvidia", percentage: 17, className: "mix-ratio-nvda" },
-  { name: "Apple", percentage: 63, className: "mix-ratio-aapl" },
-  { name: "Tesla", percentage: 20, className: "mix-ratio-tsla" },
+  { name: "Nvidia", percentage: 33.33, className: "mix-ratio-nvda" },
+  { name: "GameStop", percentage: 33.33, className: "mix-ratio-gme" },
+  { name: "Tesla", percentage: 33.34, className: "mix-ratio-tsla" },
 ] as const;
 
 const CONTENT_TRANSITION = {
@@ -23,7 +24,7 @@ export function MarketMixBreakdown({
   open,
   onToggle,
 }: MarketMixBreakdownProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
 
   return (
     <button
@@ -73,7 +74,7 @@ export function MarketMixBreakdown({
             exit={reduceMotion ? undefined : { opacity: 0 }}
             transition={reduceMotion ? { duration: 0 } : CONTENT_TRANSITION}
           >
-            Inside Market Mix
+            Starting Market Mix
             <ChevronDown className="size-3.5" aria-hidden="true" />
           </motion.span>
         )}

@@ -12,8 +12,8 @@ const sora = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Market Rips — Asset-backed stock packs",
-  description: "Open asset-backed stock-card packs on Solana.",
+  title: "Ripfolio — Verified stock-card packs",
+  description: "Rip a verified stock-card pack on Solana devnet.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

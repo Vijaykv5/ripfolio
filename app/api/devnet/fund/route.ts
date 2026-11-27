@@ -134,7 +134,7 @@ export async function POST(request: Request) {
 
     return Response.json({ ok: true });
   } catch (error) {
-    console.error("[Market Rips] devnet faucet failed", error);
+    console.error("[Ripfolio] devnet faucet failed", error);
     const message = error instanceof Error ? error.message : "Unknown faucet error";
     return Response.json(
       {

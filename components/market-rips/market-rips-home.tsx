@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useWalletModal } from "@solana/wallet-adapter-react-ui";
 import { FormattedNumber } from "@/components/ui/formatted-number";
-import { PACK_PRICE_USDC } from "@/lib/market-rips/client";
+import { usePrefersReducedMotion } from "@/components/ui/use-prefers-reduced-motion";
+import { AboutRipfolioModal } from "./about-ripfolio-modal";
 import { AppHeader } from "./app-header";
 import { MarketMixBreakdown } from "./market-mix-breakdown";
 import { DEFAULT_PACK, PACK_OPTIONS, type PackId } from "./pack-catalog";
 import { PackCarousel } from "./pack-carousel";
+import { PackRevealOverlay } from "./pack-reveal-overlay";
 import { PackStage } from "./pack-stage";
 import { PACK_STATUS_COPY, usePackRip } from "./use-pack-rip";
 
@@ -44,7 +46,7 @@ const SWIPE = {
 } as const;
 
 export function MarketRipsHome() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   const { connected, publicKey } = useWallet();
   const { setVisible } = useWalletModal();
   const {
@@ -61,6 +63,7 @@ export function MarketRipsHome() {
   const [stage, setStage] = useState(0);
   const [helpOpen, setHelpOpen] = useState(false);
   const [mixBreakdownOpen, setMixBreakdownOpen] = useState(false);
+  const [revealDismissed, setRevealDismissed] = useState(false);
   const [selectedPackId, setSelectedPackId] = useState<PackId>(DEFAULT_PACK.id);
 
   const selectedPack =
@@ -79,6 +82,7 @@ export function MarketRipsHome() {
       setVisible(true);
       return;
     }
+    setRevealDismissed(false);
     void ripPack();
   }
 
@@ -105,7 +109,13 @@ export function MarketRipsHome() {
   }
 
   const busy = !["idle", "complete", "error"].includes(flowStatus);
+  const revealOpen =
+    flowStatus === "complete" && rewards.length > 0 && !revealDismissed;
   const canChoosePack = flowStatus === "idle" || flowStatus === "complete";
+  const statusCopy =
+    flowStatus === "idle"
+      ? `${selectedPack.priceUsdc} mock USDC · Devnet`
+      : PACK_STATUS_COPY[flowStatus];
   const buttonLabel = !connected
     ? "Connect wallet"
     : flowStatus === "complete"
@@ -124,14 +134,11 @@ export function MarketRipsHome() {
 
   return (
     <main className="relative flex h-dvh items-center justify-center overflow-hidden bg-background p-3 text-foreground sm:p-6">
-      <div className="relative flex h-full w-full max-w-lg flex-col items-center justify-center overflow-hidden">
-        <AppHeader onOpenHelp={() => setHelpOpen((open) => !open)} />
-
-        {helpOpen ? (
-          <div className="absolute left-5 top-16 z-40 rounded-full border border-border bg-popover px-4 py-2 text-xs font-medium shadow-md" role="status">
-            VRF · inventory-weighted
-          </div>
-        ) : null}
+      <div className="relative flex h-full w-full max-w-lg flex-col items-center justify-center overflow-hidden rounded-[2rem] border border-border bg-background shadow-sm">
+        <AppHeader
+          helpOpen={helpOpen}
+          onOpenHelp={() => setHelpOpen(true)}
+        />
 
         <div className="flex w-full flex-col items-center justify-center px-4 pb-2 pt-18">
           <motion.div
@@ -142,7 +149,7 @@ export function MarketRipsHome() {
           >
             <p className="text-sm font-semibold text-muted-foreground">{selectedPack.label}</p>
             <FormattedNumber
-              value={PACK_PRICE_USDC}
+              value={selectedPack.priceUsdc}
               type="stable_value"
               context="detailed"
               className="mt-1 block text-4xl font-semibold leading-none tracking-tight sm:text-5xl"
@@ -199,7 +206,7 @@ export function MarketRipsHome() {
             role={error ? "alert" : "status"}
             aria-live="polite"
           >
-            <span>{error ?? PACK_STATUS_COPY[flowStatus]}</span>
+            <span>{error ?? statusCopy}</span>
             {error && lastSignature ? (
               <a
                 href={`https://explorer.solana.com/tx/${lastSignature}?cluster=devnet`}
@@ -214,6 +221,21 @@ export function MarketRipsHome() {
           </div>
         </div>
       </div>
+
+      <AboutRipfolioModal
+        open={helpOpen}
+        onClose={() => setHelpOpen(false)}
+      />
+
+      <AnimatePresence>
+        {revealOpen ? (
+          <PackRevealOverlay
+            pack={selectedPack}
+            rewards={rewards}
+            onClose={() => setRevealDismissed(true)}
+          />
+        ) : null}
+      </AnimatePresence>
     </main>
   );
 }

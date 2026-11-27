@@ -29,7 +29,7 @@ const cardStyles: Record<
 function PackMark({ pack }: { pack: PackOption }) {
   return (
     <div className="pack-product-mark" aria-hidden="true">
-      <strong>MARKET RIPS</strong>
+      <strong>RIPFOLIO</strong>
       <span>{pack.mark}</span>
       <small>{pack.detail}</small>
     </div>

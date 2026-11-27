@@ -53,7 +53,7 @@
     --pack-market: oklch(0.54 0.2 260);
     --pack-nvda: oklch(0.52 0.18 145);
     --pack-tsla: oklch(0.54 0.2 25);
-    --pack-aapl: oklch(0.24 0.025 245);
+    --pack-gme: oklch(0.46 0.14 315);
     --radius: 0.75rem;
     --gradient-bg: radial-gradient(circle at 50% 42%, oklch(0.97 0.045 205) 0%, oklch(0.94 0.03 220) 44%, oklch(0.985 0.008 205) 100%);
     --gradient-accent: linear-gradient(120deg, oklch(0.75 0.15 205) 0%, oklch(0.72 0.15 245) 100%);
@@ -131,9 +131,9 @@
     --pack-image-filter: hue-rotate(170deg) saturate(1.32) contrast(1.06);
   }
 
-  .pack-theme-aapl {
-    --pack-tone: var(--pack-aapl);
-    --pack-image-filter: grayscale(1) brightness(0.46) contrast(1.32);
+  .pack-theme-gme {
+    --pack-tone: var(--pack-gme);
+    --pack-image-filter: hue-rotate(65deg) saturate(1.16) contrast(1.05);
   }
 
   .pack-themed-art {
@@ -175,7 +175,7 @@
 
   .pack-picker-track {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.375rem;
     overflow-x: auto;
     padding: 0.125rem 1rem 0.25rem 0;
     scroll-padding-inline: 0.25rem;
@@ -203,17 +203,18 @@
 
   .pack-choice {
     display: flex;
-    min-height: 3.5rem;
-    min-width: 7rem;
+    min-height: 3rem;
+    min-width: 0;
+    flex: 0 0 calc((100% - 0.75rem) / 3);
     cursor: pointer;
     scroll-snap-align: start;
     align-items: center;
-    gap: 0.625rem;
+    gap: 0.375rem;
     border: 1px solid var(--border);
     border-radius: 1rem;
     background: color-mix(in oklch, var(--card) 90%, var(--pack-tone));
     color: var(--foreground);
-    padding: 0.375rem 0.75rem 0.375rem 0.5rem;
+    padding: 0.3rem 0.4rem;
     box-shadow: 0 5px 16px color-mix(in oklch, var(--foreground) 4%, transparent);
     transition:
       border-color 100ms cubic-bezier(0, 0, 0.2, 1),
@@ -249,30 +250,48 @@
   .pack-choice-art {
     position: relative;
     display: grid;
-    width: 2rem;
-    height: 2.75rem;
+    width: 1.75rem;
+    height: 2.25rem;
     flex: 0 0 auto;
     place-items: center;
     overflow: hidden;
     border-radius: 0.5rem;
-    background: color-mix(in oklch, var(--pack-tone) 88%, var(--card));
+    background: var(--card);
   }
 
   .pack-choice-symbol {
     position: relative;
     z-index: 1;
-    color: white;
-    font-size: 0.75rem;
+    color: var(--pack-tone);
+    font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 0.04em;
-    text-shadow: 0 1px 5px color-mix(in oklch, var(--foreground) 42%, transparent);
+  }
+
+  .pack-choice-copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem;
   }
 
   .pack-choice-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.75rem;
+    font-size: 0.675rem;
     font-weight: 700;
     letter-spacing: -0.01em;
+  }
+
+  .pack-choice-price {
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+    font-weight: 650;
+    line-height: 1;
   }
 
   .mix-breakdown {
@@ -296,17 +315,17 @@
   }
 
   .mix-ratio-nvda {
-    flex-basis: 17%;
+    flex-basis: 33.33%;
     background: var(--pack-nvda);
   }
 
-  .mix-ratio-aapl {
-    flex-basis: 63%;
-    background: var(--pack-aapl);
+  .mix-ratio-gme {
+    flex-basis: 33.33%;
+    background: var(--pack-gme);
   }
 
   .mix-ratio-tsla {
-    flex-basis: 20%;
+    flex-basis: 33.34%;
     background: var(--pack-tsla);
   }
 
@@ -466,6 +485,2098 @@
     color: oklch(0.48 0.16 315);
   }
 
+  .about-modal-shell,
+  .account-modal-shell {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: color-mix(in oklch, var(--foreground) 30%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .account-modal-shell {
+    z-index: 95;
+  }
+
+  .about-modal-backdrop,
+  .account-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+    border: 0;
+    background: transparent;
+  }
+
+  .about-modal-panel,
+  .account-modal-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--border);
+    border-radius: 1.75rem 1.75rem 0 0;
+    background: var(--card);
+    box-shadow: 0 24px 70px color-mix(in oklch, var(--foreground) 12%, transparent);
+    color: var(--card-foreground);
+    scrollbar-width: thin;
+  }
+
+  .about-modal-panel {
+    max-width: 46rem;
+  }
+
+  .account-modal-panel {
+    max-width: 34rem;
+  }
+
+  .about-modal-header,
+  .account-modal-heading {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in oklch, var(--card) 92%, transparent);
+    padding: 1.25rem;
+    backdrop-filter: blur(14px);
+  }
+
+  .about-modal-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--foreground);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .about-modal-brand-mark {
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border-radius: 0.625rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 0.75rem;
+    letter-spacing: 0;
+  }
+
+  .about-modal-network {
+    border-radius: 999px;
+    background: var(--secondary);
+    color: var(--muted-foreground);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+  }
+
+  .about-modal-header h2,
+  .account-modal-heading h2 {
+    margin-top: 0.75rem;
+    color: var(--foreground);
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .about-modal-header > div > p {
+    max-width: 34rem;
+    margin-top: 0.625rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .about-modal-close,
+  .account-modal-close {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    cursor: pointer;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--secondary);
+    color: var(--muted-foreground);
+    transition:
+      background-color 100ms cubic-bezier(0, 0, 0.2, 1),
+      color 100ms cubic-bezier(0, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .about-modal-close:active,
+  .account-modal-close:active {
+    transform: translateY(1px);
+  }
+
+  .about-modal-body,
+  .account-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .about-modal-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    background: var(--secondary);
+  }
+
+  .about-modal-summary > div {
+    display: flex;
+    min-width: 0;
+    min-height: 5.5rem;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  .about-modal-summary > div + div {
+    border-left: 1px solid var(--border);
+  }
+
+  .about-modal-summary strong {
+    color: var(--foreground);
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  .about-modal-summary span:last-child {
+    margin-top: 0.25rem;
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    line-height: 1.3;
+  }
+
+  .about-modal-section-heading,
+  .account-section-title {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .about-modal-kicker,
+  .account-section-title p {
+    color: var(--primary);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .about-modal-section-heading h3,
+  .account-section-title h3,
+  .about-modal-truth h3 {
+    margin-top: 0.25rem;
+    color: var(--foreground);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .about-modal-section-heading > span {
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    text-align: right;
+  }
+
+  .about-modal-stocks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .about-stock-card {
+    display: flex;
+    min-width: 0;
+    min-height: 5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--background);
+    padding: 0.75rem;
+  }
+
+  .about-stock-icon {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--primary) 10%, transparent);
+    color: var(--primary);
+  }
+
+  .about-stock-card strong,
+  .about-stock-card span:last-child {
+    display: block;
+  }
+
+  .about-stock-card strong {
+    margin-top: 0.75rem;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .about-stock-card span:last-child {
+    margin-top: 0.125rem;
+    overflow: hidden;
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .about-modal-note {
+    margin-top: 0.625rem;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .about-modal-steps {
+    margin-top: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    list-style: none;
+  }
+
+  .about-modal-steps li {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: start;
+    gap: 0.75rem;
+    background: var(--background);
+    padding: 0.875rem;
+  }
+
+  .about-modal-steps li + li {
+    border-top: 1px solid var(--border);
+  }
+
+  .about-step-number {
+    padding-top: 0.25rem;
+    color: var(--muted-foreground);
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .about-step-icon {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 0.75rem;
+    background: var(--secondary);
+    color: var(--primary);
+  }
+
+  .about-modal-steps strong {
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .about-modal-steps p {
+    margin-top: 0.1875rem;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+
+  .about-modal-truth {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    border-radius: 1rem;
+    background: color-mix(in oklch, var(--primary) 8%, var(--background));
+    color: var(--primary);
+    padding: 1rem;
+  }
+
+  .about-modal-truth p {
+    margin-top: 0.375rem;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .about-modal-truth a {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    border-radius: 0.75rem;
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+  }
+
+  .about-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .about-modal-footer > span {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+  }
+
+  .about-modal-footer button,
+  .account-balance-error button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: var(--foreground);
+    color: var(--background);
+    padding: 0.625rem 1.25rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .account-modal-heading p {
+    color: var(--primary);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .account-modal-heading h2 {
+    margin-top: 0.375rem;
+  }
+
+  .account-identity {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.25rem;
+  }
+
+  .account-avatar {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border-radius: 1rem;
+    background: var(--primary);
+    box-shadow: 0 8px 24px color-mix(in oklch, var(--primary) 20%, transparent);
+    color: var(--primary-foreground);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  .account-identity strong {
+    display: block;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .account-identity button {
+    display: inline-flex;
+    min-height: 2.5rem;
+    max-width: 100%;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.375rem;
+    border: 0;
+    border-radius: 0.75rem;
+    background: transparent;
+    color: var(--muted-foreground);
+    padding: 0.25rem 0;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.75rem;
+  }
+
+  .account-connected {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 999px;
+    background: var(--secondary);
+    color: var(--muted-foreground);
+    padding: 0.375rem 0.625rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+  }
+
+  .account-connected > span {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--primary);
+  }
+
+  .account-primary-balances {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .account-primary-balances article {
+    min-width: 0;
+    border-radius: 1rem;
+    background: var(--secondary);
+    padding: 1rem;
+  }
+
+  .account-primary-balances article > span {
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+  }
+
+  .account-primary-balances strong {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    color: var(--foreground);
+    font-size: clamp(1.25rem, 6vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .account-primary-balances strong > span:last-child {
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+  }
+
+  .account-section-title button {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    place-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--muted-foreground);
+  }
+
+  .account-token-list {
+    margin-top: 0.75rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+  }
+
+  .account-token-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--background);
+    padding: 0.75rem;
+  }
+
+  .account-token-row + .account-token-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .account-token-symbol {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border-radius: 0.75rem;
+    background: color-mix(in oklch, var(--primary) 10%, transparent);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .account-token-row strong,
+  .account-token-row > div > span {
+    display: block;
+  }
+
+  .account-token-row strong {
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  .account-token-row > div > span,
+  .account-token-row p > span:last-child {
+    margin-top: 0.125rem;
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+  }
+
+  .account-token-row p {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .account-token-empty {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: 1px solid var(--border);
+    background: color-mix(in oklch, var(--primary) 6%, var(--background));
+    color: var(--primary);
+    padding: 0.75rem;
+  }
+
+  .account-token-empty strong,
+  .account-token-empty span {
+    display: block;
+  }
+
+  .account-token-empty strong {
+    color: var(--foreground);
+    font-size: 0.75rem;
+  }
+
+  .account-token-empty span {
+    margin-top: 0.125rem;
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+  }
+
+  .account-token-empty button {
+    min-height: 2.5rem;
+    cursor: pointer;
+    border: 0;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+  }
+
+  .account-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+  }
+
+  .account-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .account-actions a,
+  .account-actions button {
+    display: flex;
+    min-height: 3rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--foreground);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .account-actions button {
+    border-color: color-mix(in oklch, var(--destructive) 24%, var(--border));
+    color: var(--destructive);
+  }
+
+  .account-balance-error {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+    border-radius: 1rem;
+    background: color-mix(in oklch, var(--destructive) 7%, var(--background));
+    color: var(--destructive);
+    padding: 1rem;
+  }
+
+  .account-balance-error strong {
+    color: var(--foreground);
+    font-size: 0.875rem;
+  }
+
+  .account-balance-error p {
+    margin-top: 0.25rem;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .account-balance-error button {
+    margin-top: 0.75rem;
+  }
+
+  .account-balance-skeleton {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .account-balance-skeleton > div,
+  .account-balance-skeleton > section {
+    border-radius: 1rem;
+    background: var(--secondary);
+    padding: 1rem;
+  }
+
+  .account-balance-skeleton > section {
+    grid-column: 1 / -1;
+  }
+
+  .account-balance-skeleton span,
+  .account-balance-skeleton strong {
+    display: block;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--muted-foreground) 14%, transparent);
+    animation: account-skeleton-pulse 1.4s ease-in-out infinite;
+  }
+
+  .account-balance-skeleton strong {
+    width: 72%;
+    height: 1.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .account-balance-skeleton section span + span {
+    margin-top: 0.75rem;
+  }
+
+  .about-modal-close:focus-visible,
+  .account-modal-close:focus-visible,
+  .about-modal-truth a:focus-visible,
+  .about-modal-footer button:focus-visible,
+  .account-identity button:focus-visible,
+  .account-section-title button:focus-visible,
+  .account-actions a:focus-visible,
+  .account-actions button:focus-visible,
+  .account-balance-error button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .account-token-empty button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) {
+    .about-modal-close:hover,
+    .account-modal-close:hover {
+      background: var(--accent);
+      color: var(--foreground);
+    }
+
+    .account-actions a:hover,
+    .account-section-title button:hover,
+    .account-identity button:hover {
+      color: var(--primary);
+    }
+
+    .account-actions button:hover {
+      background: color-mix(in oklch, var(--destructive) 7%, var(--card));
+    }
+  }
+
+  @media (min-width: 640px) {
+    .about-modal-shell,
+    .account-modal-shell {
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .about-modal-panel,
+    .account-modal-panel {
+      max-height: calc(100dvh - 2rem);
+      border-radius: 1.75rem;
+    }
+
+    .about-modal-header,
+    .account-modal-heading {
+      padding: 1.5rem;
+    }
+
+    .about-modal-body,
+    .account-modal-body {
+      padding: 1.5rem;
+    }
+
+    .account-identity {
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  /* Dark account sheet: a focused, wallet-first surface over the light app. */
+  .account-modal-shell {
+    align-items: flex-end;
+    background: color-mix(in oklch, var(--foreground) 58%, transparent);
+    backdrop-filter: blur(20px) saturate(0.78);
+    padding: 0 0.5rem max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .account-modal-panel {
+    --account-surface: color-mix(in oklch, var(--foreground) 88%, var(--background));
+    --account-surface-raised: color-mix(in oklch, var(--foreground) 82%, var(--background));
+    --account-line: color-mix(in oklch, var(--background) 14%, transparent);
+    --account-text: var(--background);
+    --account-muted: color-mix(in oklch, var(--background) 66%, transparent);
+    width: 100%;
+    max-width: 30rem;
+    max-height: min(82dvh, 44rem);
+    border-color: var(--account-line);
+    border-radius: 2rem;
+    background:
+      radial-gradient(circle at 18% 0%, color-mix(in oklch, var(--primary) 12%, transparent), transparent 36%),
+      var(--foreground);
+    box-shadow: 0 30px 90px color-mix(in oklch, var(--foreground) 34%, transparent);
+    color: var(--account-text);
+    will-change: transform;
+  }
+
+  .account-modal-heading {
+    position: relative;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 1.5rem 1.5rem 1rem;
+    backdrop-filter: none;
+  }
+
+  .account-modal-heading p {
+    color: var(--primary-soft);
+    font-size: 0.75rem;
+  }
+
+  .account-modal-heading h2 {
+    margin-top: 0.375rem;
+    color: var(--account-text);
+    font-size: 2rem;
+    letter-spacing: -0.045em;
+  }
+
+  .account-modal-close {
+    border-color: var(--account-line);
+    background: var(--account-surface-raised);
+    color: var(--account-muted);
+  }
+
+  .account-identity {
+    margin: 0 1.25rem;
+    border: 1px solid var(--account-line);
+    border-radius: 1.5rem;
+    background: var(--account-surface);
+    padding: 1rem;
+  }
+
+  .account-avatar {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 28px color-mix(in oklch, var(--primary) 24%, transparent);
+  }
+
+  .account-identity strong {
+    color: var(--account-text);
+    font-size: 1rem;
+  }
+
+  .account-identity button {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-connected {
+    background: var(--account-surface-raised);
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-connected > span {
+    background: var(--primary-soft);
+    box-shadow: 0 0 10px color-mix(in oklch, var(--primary-soft) 52%, transparent);
+  }
+
+  .account-modal-body {
+    gap: 1rem;
+    padding: 1rem 1.25rem max(1.25rem, env(safe-area-inset-bottom));
+  }
+
+  .account-primary-balances {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--account-line);
+    border-radius: 1.5rem;
+    background: var(--account-surface);
+  }
+
+  .account-primary-balances article {
+    display: flex;
+    min-height: 4.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-radius: 0;
+    background: transparent;
+    padding: 1rem;
+  }
+
+  .account-primary-balances article + article {
+    border-top: 1px solid var(--account-line);
+  }
+
+  .account-primary-balances article > span {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-primary-balances strong {
+    flex: 0 1 auto;
+    justify-content: flex-end;
+    margin-top: 0;
+    color: var(--account-text);
+    font-size: clamp(1.25rem, 6vw, 1.625rem);
+    text-align: right;
+  }
+
+  .account-primary-balances strong > span:last-child {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-section-title {
+    align-items: center;
+    padding: 0 0.25rem;
+  }
+
+  .account-section-title p {
+    color: var(--primary-soft);
+    font-size: 0.75rem;
+  }
+
+  .account-section-title h3 {
+    color: var(--account-text);
+    font-size: 1rem;
+  }
+
+  .account-section-title button {
+    border-color: var(--account-line);
+    background: var(--account-surface-raised);
+    color: var(--account-muted);
+  }
+
+  .account-token-list {
+    border-color: var(--account-line);
+    border-radius: 1.5rem;
+    background: var(--account-surface);
+  }
+
+  .account-token-row {
+    min-height: 4.25rem;
+    background: transparent;
+    padding: 0.875rem 1rem;
+  }
+
+  .account-token-row + .account-token-row {
+    border-color: var(--account-line);
+  }
+
+  .account-token-symbol {
+    background: var(--account-surface-raised);
+    color: var(--primary-soft);
+  }
+
+  .account-token-row strong,
+  .account-token-row p {
+    color: var(--account-text);
+  }
+
+  .account-token-row > div > span,
+  .account-token-row p > span:last-child {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-token-empty {
+    border-color: var(--account-line);
+    background: var(--account-surface-raised);
+    color: var(--primary-soft);
+  }
+
+  .account-token-empty strong {
+    color: var(--account-text);
+  }
+
+  .account-token-empty span {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-token-empty button {
+    background: var(--primary-soft);
+    color: var(--foreground);
+  }
+
+  .account-trust-row {
+    color: var(--account-muted);
+    font-size: 0.75rem;
+  }
+
+  .account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .account-actions a,
+  .account-actions button {
+    min-height: 3.5rem;
+    border-color: var(--account-line);
+    background: var(--account-surface);
+    color: var(--account-text);
+    font-size: 0.875rem;
+    transition:
+      background-color 100ms cubic-bezier(0, 0, 0.2, 1),
+      color 100ms cubic-bezier(0, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .account-actions button {
+    border-color: color-mix(in oklch, var(--destructive) 35%, var(--account-line));
+    background: color-mix(in oklch, var(--destructive) 10%, var(--account-surface));
+    color: color-mix(in oklch, var(--destructive) 58%, var(--background));
+  }
+
+  .account-actions a:active,
+  .account-actions button:active {
+    transform: translateY(1px);
+  }
+
+  .account-balance-error {
+    background: color-mix(in oklch, var(--destructive) 10%, var(--account-surface));
+  }
+
+  .account-balance-error strong {
+    color: var(--account-text);
+  }
+
+  .account-balance-error p {
+    color: var(--account-muted);
+  }
+
+  .account-balance-skeleton > div,
+  .account-balance-skeleton > section {
+    background: var(--account-surface);
+  }
+
+  .account-balance-skeleton span,
+  .account-balance-skeleton strong {
+    background: var(--account-surface-raised);
+  }
+
+  .account-modal-close:focus-visible,
+  .account-identity button:focus-visible,
+  .account-section-title button:focus-visible,
+  .account-actions a:focus-visible,
+  .account-actions button:focus-visible,
+  .account-balance-error button:focus-visible,
+  .account-token-empty button:focus-visible {
+    outline-color: var(--primary-soft);
+  }
+
+  @media (hover: hover) {
+    .account-modal-close:hover,
+    .account-section-title button:hover {
+      background: color-mix(in oklch, var(--background) 16%, var(--account-surface));
+      color: var(--account-text);
+    }
+
+    .account-identity button:hover,
+    .account-actions a:hover {
+      color: var(--primary-soft);
+    }
+
+    .account-actions button:hover {
+      background: color-mix(in oklch, var(--destructive) 15%, var(--account-surface));
+    }
+  }
+
+  @media (min-width: 640px) {
+    .account-modal-shell {
+      align-items: flex-end;
+      padding: 0 1rem 1rem;
+    }
+
+    .account-modal-panel {
+      max-height: min(82dvh, 44rem);
+      border-radius: 2rem;
+    }
+
+    .account-modal-heading {
+      padding: 1.75rem 1.75rem 1rem;
+    }
+
+    .account-identity {
+      margin-inline: 1.5rem;
+      padding: 1rem;
+    }
+
+    .account-modal-body {
+      padding: 1rem 1.5rem 1.5rem;
+    }
+  }
+
+  /* Compact account sheet: deliberately phone-sized and light-only. */
+  .account-modal-shell {
+    align-items: flex-end;
+    background: color-mix(in oklch, var(--foreground) 28%, transparent);
+    backdrop-filter: blur(14px) saturate(0.9);
+    padding: 0 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .account-modal-panel {
+    --account-surface: var(--card);
+    --account-surface-raised: var(--card);
+    --account-line: var(--border);
+    --account-text: var(--foreground);
+    --account-muted: var(--muted-foreground);
+    width: 100%;
+    max-width: 22rem;
+    max-height: min(68dvh, 34rem);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    background: var(--card);
+    box-shadow: 0 18px 56px color-mix(in oklch, var(--foreground) 18%, transparent);
+    color: var(--foreground);
+  }
+
+  .account-modal-heading {
+    position: sticky;
+    top: 0;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in oklch, var(--card) 96%, transparent);
+    padding: 0.75rem 0.875rem;
+    backdrop-filter: blur(12px);
+  }
+
+  .account-modal-heading h2 {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 1.125rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+  }
+
+  .account-modal-close {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-color: var(--border);
+    background: var(--card);
+    color: var(--muted-foreground);
+  }
+
+  .account-identity {
+    margin: 0.625rem 0.75rem 0;
+    gap: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--card);
+    padding: 0.5rem 0.625rem;
+  }
+
+  .account-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.75rem;
+    background: color-mix(in oklch, var(--primary) 10%, var(--card));
+    box-shadow: none;
+    color: var(--primary);
+  }
+
+  .account-identity button {
+    min-height: 2.5rem;
+    color: var(--foreground);
+    font-size: 0.6875rem;
+    font-weight: 650;
+  }
+
+  .account-connected {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted-foreground);
+    padding: 0.3rem 0.5rem;
+    font-size: 0.625rem;
+  }
+
+  .account-connected > span {
+    width: 0.375rem;
+    height: 0.375rem;
+    background: var(--primary);
+    box-shadow: none;
+  }
+
+  .account-modal-body {
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .account-primary-balances {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--card);
+  }
+
+  .account-primary-balances article {
+    display: flex;
+    min-height: 3.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-radius: 0;
+    background: var(--card);
+    padding: 0.625rem 0.75rem;
+  }
+
+  .account-primary-balances article > span {
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+  }
+
+  .account-primary-balances strong {
+    flex: 0 1 auto;
+    justify-content: flex-end;
+    margin: 0;
+    color: var(--foreground);
+    font-size: clamp(1rem, 5.2vw, 1.25rem);
+    text-align: right;
+  }
+
+  .account-primary-balances strong > span:last-child {
+    color: var(--muted-foreground);
+    font-size: 0.625rem;
+  }
+
+  .account-section-title {
+    align-items: center;
+    padding: 0 0.125rem;
+  }
+
+  .account-section-title h3 {
+    margin: 0;
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    letter-spacing: -0.01em;
+  }
+
+  .account-section-title button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-color: var(--border);
+    background: var(--card);
+    color: var(--muted-foreground);
+  }
+
+  .account-token-list {
+    margin-top: 0.375rem;
+    border-color: var(--border);
+    border-radius: 1rem;
+    background: var(--card);
+  }
+
+  .account-token-row {
+    min-height: 3.25rem;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 0.5rem;
+    background: var(--card);
+    padding: 0.5rem 0.625rem;
+  }
+
+  .account-token-row + .account-token-row {
+    border-color: var(--border);
+  }
+
+  .account-stock-logo {
+    display: grid;
+    width: 2.5rem;
+    height: 2rem;
+    place-items: center;
+    color: var(--primary);
+  }
+
+  .account-stock-logo svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+  }
+
+  .account-stock-logo-tsla {
+    color: var(--pack-tsla);
+  }
+
+  .account-stock-logo-nvda {
+    color: var(--pack-nvda);
+  }
+
+  .account-stock-logo-gme {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    color: var(--foreground);
+    font-size: 0.375rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+
+  .account-token-row .account-stock-logo-gme strong {
+    color: var(--pack-tsla);
+    font-size: inherit;
+    font-weight: 800;
+  }
+
+  .account-token-row > div > strong {
+    color: var(--foreground);
+    font-size: 0.75rem;
+  }
+
+  .account-token-row > div > span,
+  .account-token-row p > span:last-child {
+    color: var(--muted-foreground);
+    font-size: 0.5625rem;
+  }
+
+  .account-token-row p {
+    color: var(--foreground);
+    font-size: 0.75rem;
+  }
+
+  .account-actions {
+    display: block;
+  }
+
+  .account-actions button {
+    width: 100%;
+    min-height: 2.5rem;
+    border-color: color-mix(in oklch, var(--destructive) 18%, var(--border));
+    background: var(--card);
+    color: var(--destructive);
+    font-size: 0.6875rem;
+  }
+
+  .account-balance-error {
+    background: color-mix(in oklch, var(--destructive) 6%, var(--card));
+    padding: 0.75rem;
+  }
+
+  .account-balance-error strong {
+    color: var(--foreground);
+    font-size: 0.75rem;
+  }
+
+  .account-balance-error p {
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+  }
+
+  .account-balance-skeleton {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+
+  .account-balance-skeleton > div,
+  .account-balance-skeleton > section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+  }
+
+  .account-balance-skeleton > section {
+    grid-column: auto;
+  }
+
+  .account-balance-skeleton span,
+  .account-balance-skeleton strong {
+    background: color-mix(in oklch, var(--muted-foreground) 12%, transparent);
+  }
+
+  @media (hover: hover) {
+    .account-modal-close:hover,
+    .account-section-title button:hover {
+      background: var(--secondary);
+      color: var(--foreground);
+    }
+
+    .account-identity button:hover {
+      color: var(--primary);
+    }
+
+    .account-actions button:hover {
+      background: color-mix(in oklch, var(--destructive) 5%, var(--card));
+    }
+  }
+
+  @media (min-width: 640px) {
+    .account-modal-shell {
+      padding: 0 1rem 1rem;
+    }
+
+    .account-modal-panel {
+      max-width: 22rem;
+      max-height: min(68dvh, 34rem);
+      border-radius: 1.5rem;
+    }
+
+    .account-modal-heading {
+      padding: 0.75rem 0.875rem;
+    }
+
+    .account-identity {
+      margin-inline: 0.75rem;
+      padding: 0.5rem 0.625rem;
+    }
+
+    .account-modal-body {
+      padding: 0.625rem 0.75rem 0.75rem;
+    }
+  }
+
+  /* Isolated compact account card; legacy account rules cannot override this. */
+  .compact-account-shell {
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: color-mix(in oklch, var(--foreground) 18%, transparent);
+    padding: 1rem;
+    backdrop-filter: blur(12px) saturate(0.92);
+  }
+
+  .compact-account-backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+    border: 0;
+    background: transparent;
+  }
+
+  .compact-account-panel {
+    position: relative;
+    z-index: 1;
+    width: min(20rem, calc(100vw - 2rem));
+    max-height: min(26rem, calc(100dvh - 5rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    background: var(--card);
+    box-shadow: 0 16px 44px color-mix(in oklch, var(--foreground) 14%, transparent);
+    color: var(--foreground);
+    scrollbar-width: thin;
+    will-change: transform;
+  }
+
+  .compact-account-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+    padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+  }
+
+  .compact-account-header h2 {
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  .compact-account-close,
+  .compact-account-section-title button {
+    display: grid;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    cursor: pointer;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--muted-foreground);
+    transition:
+      background-color 100ms cubic-bezier(0, 0, 0.2, 1),
+      color 100ms cubic-bezier(0, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .compact-account-wallet {
+    display: grid;
+    min-height: 3rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.375rem;
+    margin: 0.5rem 0.625rem 0;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+    padding: 0.25rem 0.5rem;
+  }
+
+  .compact-account-wallet-icon {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 0.625rem;
+    background: color-mix(in oklch, var(--primary) 9%, var(--card));
+    color: var(--primary);
+  }
+
+  .compact-account-wallet button {
+    display: inline-flex;
+    min-width: 0;
+    min-height: 2.5rem;
+    cursor: pointer;
+    align-items: center;
+    gap: 0.25rem;
+    border: 0;
+    border-radius: 0.625rem;
+    background: transparent;
+    color: var(--foreground);
+    padding: 0 0.25rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 650;
+  }
+
+  .compact-account-network {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-weight: 650;
+  }
+
+  .compact-account-network > span {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: var(--primary);
+  }
+
+  .compact-account-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0.625rem max(0.625rem, env(safe-area-inset-bottom));
+  }
+
+  .compact-account-sol {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+  }
+
+  .compact-account-sol article {
+    display: flex;
+    min-height: 3.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.625rem;
+  }
+
+  .compact-account-sol article > span {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+
+  .compact-account-sol strong {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    color: var(--foreground);
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    text-align: right;
+  }
+
+  .compact-account-sol strong > span:last-child {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+
+  .compact-account-section-title {
+    display: flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .compact-account-section-title h3 {
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .compact-account-list {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+  }
+
+  .compact-account-row {
+    display: grid;
+    min-height: 2.75rem;
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.375rem;
+    background: var(--card);
+    padding: 0.25rem 0.5rem;
+  }
+
+  .compact-account-row + .compact-account-row {
+    border-top: 1px solid var(--border);
+  }
+
+  .compact-account-logo {
+    display: grid;
+    width: 2.25rem;
+    height: 2rem;
+    place-items: center;
+  }
+
+  .compact-account-logo img {
+    display: block;
+    max-width: 2.125rem;
+    max-height: 1.375rem;
+    object-fit: contain;
+  }
+
+  .compact-account-stock-name {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 0.375rem;
+  }
+
+  .compact-account-stock-name strong,
+  .compact-account-stock-name span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .compact-account-stock-name strong {
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .compact-account-stock-name span {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+  }
+
+  .compact-account-row > p {
+    display: flex;
+    align-items: baseline;
+    color: var(--foreground);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .compact-account-row > p > span:last-child {
+    color: var(--muted-foreground);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .compact-account-actions button,
+  .compact-account-error button {
+    display: inline-flex;
+    min-height: 2.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border: 1px solid color-mix(in oklch, var(--destructive) 18%, var(--border));
+    border-radius: 999px;
+    background: var(--card);
+    color: var(--destructive);
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition:
+      background-color 100ms cubic-bezier(0, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .compact-account-actions button {
+    width: 100%;
+  }
+
+  .compact-account-error {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem;
+    border: 1px solid color-mix(in oklch, var(--destructive) 15%, var(--border));
+    border-radius: 0.75rem;
+    background: var(--card);
+    color: var(--destructive);
+    padding: 0.625rem;
+  }
+
+  .compact-account-error strong,
+  .compact-account-error p {
+    display: block;
+    font-size: 0.75rem;
+  }
+
+  .compact-account-error strong {
+    color: var(--foreground);
+  }
+
+  .compact-account-error p {
+    margin-top: 0.25rem;
+    color: var(--muted-foreground);
+    line-height: 1.4;
+  }
+
+  .compact-account-error button {
+    margin-top: 0.5rem;
+  }
+
+  .compact-account-skeleton {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .compact-account-skeleton > div,
+  .compact-account-skeleton > section {
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+    padding: 0.625rem;
+  }
+
+  .compact-account-skeleton span,
+  .compact-account-skeleton strong {
+    display: block;
+    height: 0.75rem;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--muted-foreground) 12%, transparent);
+    animation: account-skeleton-pulse 1.4s ease-in-out infinite;
+  }
+
+  .compact-account-skeleton strong {
+    width: 68%;
+    margin-top: 0.5rem;
+  }
+
+  .compact-account-skeleton section span + span {
+    margin-top: 0.5rem;
+  }
+
+  .compact-account-close:focus-visible,
+  .compact-account-wallet button:focus-visible,
+  .compact-account-section-title button:focus-visible,
+  .compact-account-actions button:focus-visible,
+  .compact-account-error button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .compact-account-close:active,
+  .compact-account-section-title button:active,
+  .compact-account-actions button:active,
+  .compact-account-error button:active {
+    transform: translateY(1px);
+  }
+
+  @media (hover: hover) {
+    .compact-account-close:hover,
+    .compact-account-section-title button:hover {
+      background: var(--secondary);
+      color: var(--foreground);
+    }
+
+    .compact-account-wallet button:hover {
+      color: var(--primary);
+    }
+
+    .compact-account-actions button:hover,
+    .compact-account-error button:hover {
+      background: color-mix(in oklch, var(--destructive) 5%, var(--card));
+    }
+  }
+
+  @media (min-width: 640px) {
+    .compact-account-shell {
+      padding: 1.25rem;
+    }
+  }
+
+  .pack-reveal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    min-height: 100dvh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 43%, color-mix(in oklch, var(--pack-tone) 18%, white), transparent 43%),
+      var(--gradient-bg);
+    padding: 1rem;
+  }
+
+  .pack-reveal-backdrop {
+    position: absolute;
+    inset: 0;
+    cursor: default;
+    border: 0;
+    background: transparent;
+  }
+
+  .pack-reveal-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(100%, 36rem);
+    height: min(46rem, calc(100dvh - 7rem));
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pack-reveal-status {
+    position: absolute;
+    top: 0;
+    display: flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in oklch, var(--primary) 20%, var(--border));
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--card) 88%, transparent);
+    color: var(--muted-foreground);
+    padding: 0.5rem 0.875rem;
+    box-shadow: 0 8px 30px color-mix(in oklch, var(--foreground) 6%, transparent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(12px);
+  }
+
+  .pack-reveal-check {
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .pack-reveal-scene {
+    position: relative;
+    display: grid;
+    width: 100%;
+    min-height: 24rem;
+    place-items: center;
+  }
+
+  .reveal-pack-shell {
+    position: absolute;
+    z-index: 2;
+    width: 14rem;
+    aspect-ratio: 2 / 3;
+    filter: drop-shadow(0 26px 32px color-mix(in oklch, var(--foreground) 12%, transparent));
+  }
+
+  .reveal-pack-fragment {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .reveal-pack-fragment img {
+    object-fit: cover;
+  }
+
+  .reveal-pack-fragment-top {
+    clip-path: polygon(10% 6%, 90% 6%, 90% 47%, 84% 49%, 76% 46%, 66% 50%, 56% 47%, 46% 51%, 36% 47%, 26% 50%, 18% 46%, 10% 49%);
+  }
+
+  .reveal-pack-fragment-bottom {
+    clip-path: polygon(10% 49%, 18% 46%, 26% 50%, 36% 47%, 46% 51%, 56% 47%, 66% 50%, 76% 46%, 84% 49%, 90% 47%, 90% 95%, 10% 95%);
+  }
+
+  .reveal-pack-tear {
+    position: absolute;
+    top: 48%;
+    left: 7%;
+    z-index: 3;
+    width: 86%;
+    height: 0.1875rem;
+    transform-origin: center;
+    border-radius: 999px;
+    background: var(--primary-foreground);
+    box-shadow: 0 0 26px color-mix(in oklch, var(--primary-soft) 82%, white);
+  }
+
+  .pack-reveal-cards {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    width: 100%;
+    height: 19rem;
+    place-items: center;
+  }
+
+  .pack-reveal-card {
+    position: absolute;
+    display: flex;
+    width: 7rem;
+    height: 11rem;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    border-radius: 1rem;
+    background:
+      linear-gradient(155deg, color-mix(in oklch, var(--primary-soft) 38%, white), transparent 42%),
+      var(--card);
+    color: var(--foreground);
+    padding: 0.75rem;
+    box-shadow: 0 20px 50px color-mix(in oklch, var(--foreground) 11%, transparent);
+    transform-origin: 50% 88%;
+  }
+
+  .pack-reveal-card::after {
+    position: absolute;
+    inset: auto -25% -34% 24%;
+    height: 55%;
+    transform: rotate(-18deg);
+    background: color-mix(in oklch, var(--primary) 8%, transparent);
+    content: "";
+  }
+
+  .pack-reveal-card-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted-foreground);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .pack-reveal-card-icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    align-self: center;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--primary) 12%, transparent);
+    color: var(--primary);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--primary) 18%, transparent);
+  }
+
+  .pack-reveal-card-label,
+  .pack-reveal-card-amount span {
+    color: var(--muted-foreground);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .pack-reveal-card h3 {
+    margin-top: 0.125rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .pack-reveal-card-amount {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  .pack-reveal-copy {
+    position: absolute;
+    bottom: 0;
+    max-width: 28rem;
+    text-align: center;
+  }
+
+  .pack-reveal-eyebrow {
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pack-reveal-copy h2 {
+    margin-top: 0.5rem;
+    font-size: clamp(1.75rem, 7vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+
+  .pack-reveal-copy > p:last-child {
+    margin-top: 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .pack-reveal-action {
+    position: absolute;
+    right: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 2;
+    display: flex;
+    min-width: 7.5rem;
+    min-height: 3rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 999px;
+    background: var(--foreground);
+    color: var(--background);
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-sora), Arial, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition:
+      filter 100ms cubic-bezier(0, 0, 0.2, 1),
+      transform 100ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .pack-reveal-action:active {
+    transform: translateY(1px);
+  }
+
+  .pack-reveal-action:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  @media (hover: hover) {
+    .pack-reveal-action:hover {
+      filter: brightness(1.12);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .reveal-pack-shell {
+      width: 16rem;
+    }
+
+    .pack-reveal-card {
+      width: 8rem;
+      height: 12.5rem;
+      padding: 0.875rem;
+    }
+
+    .pack-reveal-action {
+      right: 1.5rem;
+      bottom: 1.5rem;
+    }
+  }
+
   .pack-stack {
     isolation: isolate;
   }
@@ -486,6 +2597,15 @@
   .pack-ghost-right {
     right: -38%;
     transform: rotate(8deg) scale(0.84);
+  }
+}
+
+@keyframes account-skeleton-pulse {
+  0%, 100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
   }
 }
 
@@ -541,7 +2661,7 @@
   }
 }
 
-/* Solana wallet-adapter modal, restyled to match the light Market Rips shell. */
+/* Solana wallet-adapter modal, restyled to match the light Ripfolio shell. */
 .wallet-adapter-modal {
   position: fixed;
   inset: 0;

@@ -46,7 +46,7 @@ export type PackFlowStatus =
   | "error";
 
 export const PACK_STATUS_COPY: Record<PackFlowStatus, string> = {
-  idle: "10 mock USDC · Devnet",
+  idle: "Ready · Devnet",
   checking: "Checking pack...",
   funding: "Adding devnet test funds...",
   signing: "Approve in your wallet",
@@ -270,7 +270,6 @@ export function usePackRip() {
       );
 
       setFlowStatus("ripping");
-      setRipState("ripping");
       await submitPreparedTransaction(
         preparedTransactions[1],
         signedTransactions[1],
@@ -312,7 +311,7 @@ export function usePackRip() {
         return;
       }
 
-      console.error("[Market Rips] pack flow failed", caught);
+      console.error("[Ripfolio] pack flow failed", caught);
       setError(
         pending ? "Pack paused. Try again." : details.message,
       );
