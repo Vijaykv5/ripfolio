@@ -1,0 +1,27 @@
+[package]
+name = "market-rips"
+version = "0.1.0"
+description = "Inventory-backed stock pack opening on Solana with MagicBlock"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "market_rips"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+anchor-lang = { version = "=1.1.2", features = ["init-if-needed"] }
+anchor-spl = { version = "=1.1.2", features = ["associated_token", "token_2022"] }
+ephemeral-rollups-sdk = { version = "0.16.2", features = ["anchor", "vrf"] }
+session-keys = { version = "3.1.1", features = ["no-entrypoint"] }
+solana-sha256-hasher = { version = "3.1.0", features = ["sha2"] }

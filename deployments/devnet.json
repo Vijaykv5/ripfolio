@@ -1,0 +1,57 @@
+{
+  "cluster": "devnet",
+  "rpcUrl": "https://api.devnet.solana.com",
+  "programId": "Fu7hq2ZxsxDfmTFvMN6kxaZa6z5uB1ENKiH4Af2HwkbL",
+  "authority": "2eDJJZydDTV4HQmbtX6YwhrdfCW7XU3zms9538HGqkuB",
+  "platform": "6WbYFDtqnDvHNTqvasAY1tRC66NEFeAbAZZp1HPFmNdn",
+  "payment": {
+    "mint": "Aqy2cmU8LCfvpi18nCJp6fZ7qAunurK3ainH5jtdm2ze",
+    "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "authorityTokenAccount": "JDQHZzy3t9HCMKbdAe9n2QEwWr4fZU325TjXQF8M53sC",
+    "vault": "F7s8ZJfr7cpTRDbeUoatGevGF8bc8iUVuqTxN5QbaMMM"
+  },
+  "pack": {
+    "id": "1",
+    "address": "8DK1epX4kwZFrkooZfSqhvHTDqzWSg5E4TrfpNFZbrkU",
+    "priceRaw": "10000000",
+    "revealTimeoutSeconds": 600
+  },
+  "stocks": [
+    {
+      "symbol": "TSLA",
+      "mint": "Bnop3mafZTSCkfg2Utzai5oUvpVvcNxD1PiDmKzDmD8",
+      "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "authorityTokenAccount": "8e4F5quX6A5VeAPvh6YqWquvitVMZ5J14ZTuvx3ZnWcz",
+      "prizeVault": "9yhPwFtUWgPkKS2MLcd9ABJai4zoCxMZZ83RDBXjuqcL",
+      "rawAmountPerPull": "1000000",
+      "units": 30
+    },
+    {
+      "symbol": "NVDA",
+      "mint": "KSBTePinmNrAF2bisAcbyB5VaDuwcibMMpi62HnPV6L",
+      "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "authorityTokenAccount": "FTwvydf4yW2QGak53hfeF1tipkZUFxJER9acNs9qqvKm",
+      "prizeVault": "CC4Lg6ofZTygda9UUZ5x7GpjcuxoGfGkgGNAF1MLhJVN",
+      "rawAmountPerPull": "1000000",
+      "units": 30
+    },
+    {
+      "symbol": "GME",
+      "mint": "7Rj9y4oafH32PuYmGRcgyfiFhFKnPaggAg28H5XhjAip",
+      "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "authorityTokenAccount": "9cQCgqinoNSUv89Y2HEGjvkWyTxwm62Cn5PYUF6ym3mT",
+      "prizeVault": "FzFThJnvKp4MXfKh4yWq7igjq5vAqA14HFo7TVgwfsvL",
+      "rawAmountPerPull": "1000000",
+      "units": 30
+    }
+  ],
+  "createdAt": "2026-11-25T19:09:10.936Z",
+  "bootstrapSignatures": [
+    "2eBt6HJy9LdY6CK6hLNmx9hjE6QThDA571WqL8SbHZkb4VvntJJuaLzDJ3iZrFRyGrc1n567DemmcYP3jE6WbEjo",
+    "5y5a9eVStipf4b36hWsQG8wKyZfxPvboYrEZT5Vrm6CYxj934Uo8ZnCoTEGEQh8o78qoKxWQvuQ3kcu9odAemwjX",
+    "4KagupXrw7MDckED9UGnUE8CSJwx3oByiaG72BE7hHLQV6MxxyuBeunc7Hi9FMqJLVXTiujg5jFduNZ8eNeFBkCv",
+    "5n1RrV6Ydsbk3aMuh5CFAGMPKUW2BUCdQTa57R6rHwHFEvj3GnTNUjXeqPDQYztBok99Z9WAE6tiPkRyU5sByw2T",
+    "5URpK9w3319pdiyvba8oEqmjtFffgqC4ftFBWuFwYQoYkCfh1oV91dTc3iPE4QQ4mnp3ucy2sfQ4EHFgV2RiC6u9",
+    "2sHTYUqv4cwCZxeExNKoTUZtBiD2bXEKR4GKXZoKdviE7jYzDH9MfgSVWCJgm97YAoLjh7LuNmixEqkBK7TPY9z4"
+  ]
+}

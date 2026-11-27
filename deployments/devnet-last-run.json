@@ -1,0 +1,34 @@
+{
+  "completedAt": "2026-11-25T19:12:40.924Z",
+  "programId": "Fu7hq2ZxsxDfmTFvMN6kxaZa6z5uB1ENKiH4Af2HwkbL",
+  "purchase": "C1idcVtUPVuiZX8TfHtdYNDF6PBSSwQAefPdeqbUGThZ",
+  "packSession": "BpCwP78J5quD84R4X9mFTjye6iD9fZEoe9fePpsqSwJg",
+  "selectedEntries": [
+    2,
+    1,
+    2
+  ],
+  "selectedSymbols": [
+    "GME",
+    "NVDA",
+    "GME"
+  ],
+  "finalStatus": "settled",
+  "signatures": {
+    "buy": "3FBeAnmjYRoygxD5axsT2C8FKbpwxTr1spKB3dE2AvPPwB8Vymeoewu6q4k5y5bYB928kUzYdWgaXXuePXj4vUPC",
+    "vrfRequest": "3rHJRZi4E4QUvrhYDKMpeR9z7UFirwzN28qsEwwfJzaCXJjtSSSNn1uvZ1JmtSdR3fa6DbaDrtazDJM7cTVTXuJJ",
+    "vrfCallback": "3Kvbxr2vYtB2M2kyQxo9zsycdhN6md2KgpDUXSU9qmDBrS6Kw2SpNVazvNSxGW3eG67VUwW4MRqKowC2jWqigb6z",
+    "delegate": "4huBw1wLfHtgqhq5jPuAJpzPg6Ww1mUZQNphKvTQMRFvaoZLpCngEMbaJtQtzTFAdzUyqURG1LL8fGEcYi4ntmeN",
+    "reveal": [
+      "5baQcdYDMvr92nCjyjuCXdkLwH8uFzj6aK3ASSPA7za6tqgBw6696mGbE4zwzyjkQD2ssMyidAjvxmzosiVNfjEj",
+      "TseyvnmiUXNCqPeaSjPdVoUC2x5YjG64egp2iCTeoCvYpVcKqafUpQfJM9yxxwxqmSN8XJPwn4hE6P1Ka6s2z2U",
+      "5Bd2ohyessLHUad6boxHiAak69PxBXheMhjzM2cST9ePDkqbEzCqNtDwQYPf3wBU8GqFaGn5SEZhJ3L2BriZEuSY"
+    ],
+    "undelegate": "2wEqmrrwz3XjJ6XxdCu2jTvy9wCtLdGBPfZradwuKAANmwuMPh21BLEeU9JRRaMCbrQZiDPEA7hg5MDYib5NHzp9",
+    "claim": [
+      "4GZzwfLeZLzckxE2GgSyWSUSQZZAYFpt6otBBQbxTKpdc4hbZG5YF8XhDqQkqnm6sQLoTqcXmm2bZafKJ7jMURuk",
+      "5TBpsoo9jXNJnmvMAZhvuvAPpJpckhzKLfsQWEjWNvFURroZtdFR9B6nW5n2NN2c4GyJ6djQaCJGAyLfM9d83GHJ",
+      "3eYgNANkg3785MbMmHfvb4FKJj4R6ReQfLzgf1yRWUiJNHSbFVEhEJBNGtc8qMZYNVkjKxnaBn6Ku73r6X6ifT4G"
+    ]
+  }
+}
