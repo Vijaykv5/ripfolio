@@ -21,7 +21,15 @@
 /build
 
 # Anchor / Solana
-/target
+# The Next.js client imports the generated IDL and TypeScript schema at runtime.
+# Keep those two deployable while excluding binaries, keypairs, and other build output.
+/target/*
+!/target/idl/
+!/target/types/
+/target/idl/*
+!/target/idl/market_rips.json
+/target/types/*
+!/target/types/market_rips.ts
 /.anchor
 /test-ledger
 
